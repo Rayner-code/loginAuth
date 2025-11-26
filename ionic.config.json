@@ -1,0 +1,7 @@
+{
+  "name": "loginAuth",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

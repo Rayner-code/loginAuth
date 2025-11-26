@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "394305579450",
+    "project_id": "qualudauth",
+    "storage_bucket": "qualudauth.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394305579450:android:8071695d7a962d93309583",
+        "android_client_info": {
+          "package_name": "com.login.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY2nxZ_9-1KYgNQ6byTsfYfkwk0vrV8tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

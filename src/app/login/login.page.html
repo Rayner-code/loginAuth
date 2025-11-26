@@ -1,0 +1,41 @@
+
+
+<ion-content class="ion-padding">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    @if (errorMessage) {
+      <ion-text color="danger" class="ion-padding-bottom">
+        {{ errorMessage }}
+      </ion-text>
+    }
+    <ion-item>
+      <ion-label position="stacked">Correo electrónico</ion-label>
+      <ion-input formControlName="email" type="email"></ion-input>
+    </ion-item>
+    @if (f['email'].touched && f['email'].invalid) {
+      <ion-text color="danger" class="ion-padding-start">
+        @if (f['email'].errors?.['required']) { <div>El correo es requerido.</div> }
+        @if (f['email'].errors?.['email']) { <div>Formato de correo inválido.</div> }
+      </ion-text>
+    }
+    <ion-item>
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input formControlName="password" type="password"></ion-input>
+    </ion-item>
+    @if (f['password'].touched && f['password'].invalid) {
+      <ion-text color="danger" class="ion-padding-start">
+        @if (f['password'].errors?.['required']) { <div>La contraseña es requerida.</div> }
+        @if (f['password'].errors?.['minlength']) { <div>La contraseña debe tener al menos 6 caracteres.</div> }
+      </ion-text>
+    }
+
+    <ion-item lines="none">
+      <ion-checkbox slot="start" formControlName="rememberMe"></ion-checkbox>
+      <ion-label>Recordarme</ion-label>
+    </ion-item>
+
+    <ion-button type="submit" expand="block" [disabled]="!loginForm.valid || loading">
+      @if (loading) { <ion-spinner slot="start" name="dots"></ion-spinner> }
+      Iniciar sesión
+    </ion-button>
+  </form>
+</ion-content>
