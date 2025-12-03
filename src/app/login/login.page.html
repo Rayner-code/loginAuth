@@ -38,4 +38,29 @@
       Iniciar sesión
     </ion-button>
   </form>
+   <!-- Botón Google -->
+  <ion-button expand="block" color="light" (click)="loginWithGoogle()">
+    <ion-icon name="logo-google" slot="start"></ion-icon>
+    Continuar con Google
+  </ion-button>
 </ion-content>
+
+<style>
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--ion-color-medium);
+  }
+  .divider ion-text {
+    padding: 0 10px;
+  }
+</style>
+
+

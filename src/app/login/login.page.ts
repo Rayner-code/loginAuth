@@ -16,9 +16,11 @@ import {
   IonSpinner,
   IonText,
   IonCheckbox,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +28,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
+    IonIcon,
     IonContent,
     IonItem,
     IonButton,
@@ -47,7 +50,8 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {
     this.loginForm = this.fb.group(
       {
@@ -73,26 +77,46 @@ export class LoginPage implements OnInit {
     const { email, password, rememberMe } = this.loginForm.value;
     this.loading = true;
 
-    this.authService.login({ email, password }).pipe().subscribe({
-      next: (res) => {
-        if (rememberMe && res?.token) {
-          this.authService.setToken(res.token);
-        }
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        this.errorMessage = typeof err === 'string' ? err : 'Error en login';
-        console.error('Error en login', err);
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
+    this.authService
+      .login({ email, password })
+      .pipe()
+      .subscribe({
+        next: (res) => {
+          if (rememberMe && res?.token) {
+            this.authService.setToken(res.token);
+          }
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          this.errorMessage = typeof err === 'string' ? err : 'Error en login';
+          console.error('Error en login', err);
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
   }
 
   logOut() {
     // Lógica para cerrar sesión
     this.router.navigate(['/login']);
+  }
+
+  async loginWithGoogle() {
+    try {
+      const res = await this.authService.loginWithGoogle();
+      if (res) {
+        this.router.navigate(['/home']);
+      }
+      
+    } catch (error) {
+      const alert = await this.alertController.create({
+        header: 'Google Login',
+        message: 'No se pudo iniciar sesión con Google.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
   }
 }

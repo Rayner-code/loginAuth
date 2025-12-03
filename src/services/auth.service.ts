@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { SocialLogin } from '@capgo/capacitor-social-login';
 
 @Injectable({
   providedIn: 'root',
@@ -86,5 +87,34 @@ export class AuthService {
       message = 'No hay conexión con el servidor';
     }
     return throwError(() => message);
+  }
+
+  // ------- Google Login -------
+  async loginWithGoogle(): Promise<any> {
+    try {
+      await SocialLogin.initialize({
+        google: {
+          webClientId:
+            '633765046548-c6ig2nvillq13itvebvq9a9abl1imc9d.apps.googleusercontent.com', // Required: the web client id for Android 
+        },
+      });
+      const res = await SocialLogin.login({
+        provider: 'google',
+        options: {
+          scopes: ['email', 'profile'],
+        },
+      });
+
+      if(res.provider === 'google') {
+        console.log('Google login successful:', res);
+        // Aquí puedes manejar el token de Google como necesites
+        return res;
+      } else {
+        console.warn('Provider not supported:', res.provider);
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      throw error;
+    }
   }
 }
